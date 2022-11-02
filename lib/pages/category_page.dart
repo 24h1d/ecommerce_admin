@@ -28,6 +28,18 @@ class CategoryPage extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
+      body: Consumer<ProductProvider>(
+        builder: (context, provider, child) => ListView.builder(
+          itemCount: provider.categoryList.length,
+          itemBuilder: (context, index) {
+            final catModel = provider.categoryList[index];
+            return ListTile(
+              title: Text(catModel.categoryName),
+              trailing: Text('total: ${catModel.productCount}'),
+            );
+          },
+        ),
+      ),
     );
   }
 }
