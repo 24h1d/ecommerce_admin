@@ -1,11 +1,12 @@
-import 'package:ecom_admin/auth/auth_service.dart';
-import 'package:ecom_admin/pages/launcher_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import '../auth/authservice.dart';
+import 'launcher_page.dart';
+
 class LoginPage extends StatefulWidget {
-  static const String routeName = '/login_page';
+  static const String routeName = '/login';
   const LoginPage({Key? key}) : super(key: key);
 
   @override
@@ -15,98 +16,100 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passController = TextEditingController();
+  final _passwordController = TextEditingController();
   String _errMsg = '';
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _emailController.dispose();
-    _passController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              padding: EdgeInsets.all(16),
-              shrinkWrap: true,
-              children: [
-                TextFormField(
+    return Scaffold(
+      body: Center(
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(24),
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    labelText: 'Email Address',
-                    prefixIcon: Icon(Icons.email),
-                    filled: true,
-                  ),
+                  decoration: const InputDecoration(
+                      filled: true,
+                      prefixIcon: Icon(Icons.email),
+                      labelText: 'Email Address'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'This field must not be empty';
+                      return 'Provide a valid email address';
                     }
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 5.0,
-                ),
-                TextFormField(
-                  controller: _passController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: Icon(Icons.lock),
-                    filled: true,
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: TextFormField(
+                  controller: _passwordController,
+                  //obscureText: true,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: 'Password(at least 6 characters)'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'This field must not be empty';
+                      return 'Provide a valid password';
                     }
                     return null;
                   },
                 ),
-                SizedBox(
-                  height: 5.0,
+              ),
+              ElevatedButton(
+                onPressed: _authenticate,
+                child: const Text('Login as Admin'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  _errMsg,
+                  style: const TextStyle(fontSize: 18, color: Colors.red),
                 ),
-                ElevatedButton(
-                    onPressed: _authenticate, child: Text('Login as Admin')),
-                Text(_errMsg),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   void _authenticate() async {
     if (_formKey.currentState!.validate()) {
-      EasyLoading.show(status: 'Please Wait', dismissOnTap: false);
+      EasyLoading.show(status: 'Please wait', dismissOnTap: false);
       final email = _emailController.text;
-      final password = _passController.text;
+      final password = _passwordController.text;
       try {
-        final status = await AuthService.loginAdmin(email, password);
+        final status = await AuthService.login(email, password);
         EasyLoading.dismiss();
         if (status) {
           if (mounted) {
-            // mounted shows that login page exists on the widget tree or not
             Navigator.pushReplacementNamed(context, LauncherPage.routeName);
-            setState(() {});
           }
         } else {
-          AuthService.logout();
-          _errMsg = 'This email is not an admin email';
-          setState(() {});
+          await AuthService.logout();
+          setState(() {
+            _errMsg = 'This email address is not registered as Admin.';
+          });
         }
-      } on FirebaseAuthException catch (e) {
-        _errMsg = e.message!;
-        setState(() {});
+      } on FirebaseAuthException catch (error) {
         EasyLoading.dismiss();
+        setState(() {
+          _errMsg = error.message!;
+        });
       }
     }
   }

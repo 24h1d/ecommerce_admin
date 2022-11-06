@@ -1,9 +1,10 @@
-const String collectionCategory = 'Categories';
-const String categoryFieldCategoryId = 'categoryId';
-const String categoryFieldCategoryName = 'categoryName';
-const String categoryFieldProductCount = 'productCount';
+const String collectionCategory='Categories';
 
-class CategoryModel {
+const String categoryFieldId='categoryId';
+const String categoryFieldName='categoryName';
+const String categoryFieldProductCount='productCount';
+
+class CategoryModel{
   String? categoryId;
   String categoryName;
   num productCount;
@@ -11,19 +12,30 @@ class CategoryModel {
   CategoryModel({
     this.categoryId,
     required this.categoryName,
-    this.productCount = 0,
+     this.productCount=0,
   });
 
-//: implement map key constants,toMap, fromMap
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        categoryFieldCategoryId: categoryId,
-        categoryFieldCategoryName: categoryName,
-        categoryFieldProductCount: productCount,
-      };
+  Map<String,dynamic>toMap(){
+    return <String,dynamic>{
+      categoryFieldId:categoryId,
+      categoryFieldName:categoryName,
+      categoryFieldProductCount:productCount,
+    };
+  }
 
-  factory CategoryModel.fromMap(Map<String, dynamic> map) => CategoryModel(
-        categoryId: map[categoryFieldCategoryId],
-        categoryName: map[categoryFieldCategoryName],
-        productCount: map[categoryFieldProductCount],
-      );
+  factory CategoryModel.fromMap(Map<String,dynamic>map)=>CategoryModel(
+    categoryId: map[categoryFieldId],
+    categoryName: map[categoryFieldName],
+    productCount: map[categoryFieldProductCount],
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CategoryModel &&
+          runtimeType == other.runtimeType &&
+          categoryId == other.categoryId;
+
+  @override
+  int get hashCode => categoryId.hashCode;
 }
