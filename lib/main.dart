@@ -1,58 +1,54 @@
-import 'package:ecom_admin/pages/add_product_page.dart';
-import 'package:ecom_admin/pages/category_page.dart';
-import 'package:ecom_admin/pages/dashboard_page.dart';
-import 'package:ecom_admin/pages/launcher_page.dart';
-import 'package:ecom_admin/pages/login_page.dart';
-import 'package:ecom_admin/pages/order_list_page.dart';
-import 'package:ecom_admin/pages/product_details_page.dart';
-import 'package:ecom_admin/pages/product_repurchase_page.dart';
-import 'package:ecom_admin/pages/report_page.dart';
-import 'package:ecom_admin/pages/settings_page.dart';
-import 'package:ecom_admin/pages/user_list_page.dart';
-import 'package:ecom_admin/pages/view_product_page.dart';
-import 'package:ecom_admin/provider/product_provider.dart';
+import 'package:ecom_admin/providers/product_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'pages/add_product_page.dart';
+import 'pages/category_page.dart';
+import 'pages/dashboard_page.dart';
+import 'pages/launcher_page.dart';
+import 'pages/login_page.dart';
+import 'pages/order_page.dart';
+import 'pages/product_details_page.dart';
+import 'pages/product_repurchase_page.dart';
+import 'pages/report_page.dart';
+import 'pages/settings_page.dart';
+import 'pages/user_list_page.dart';
+import 'pages/view_product_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => ProductProvider(),
-    ),
+    ChangeNotifierProvider(create: (_) => ProductProvider()),
   ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+        primarySwatch: Colors.blue,
       ),
       builder: EasyLoading.init(),
       initialRoute: LauncherPage.routeName,
       routes: {
-        DashboardPage.routeName: (context) => DashboardPage(),
-        LoginPage.routeName: (context) => LoginPage(),
-        LauncherPage.routeName: (context) => LauncherPage(),
-        AddProductPage.routeName: (context) => AddProductPage(),
-        ViewProductPage.routeName: (context) => ViewProductPage(),
-        CategoryPage.routeName: (context) => CategoryPage(),
-        OrderListPage.routeName: (context) => OrderListPage(),
-        UserListPage.routeName: (context) => UserListPage(),
-        SettingsPage.routeName: (context) => SettingsPage(),
-        ReportPage.routeName: (context) => ReportPage(),
-        ProductDetailsPage.routeName: (context) => ProductDetailsPage(),
-        ProductRepurchasePage.routeName: (context) => ProductRepurchasePage(),
+        LauncherPage.routeName: (_) => const LauncherPage(),
+        LoginPage.routeName: (_) => const LoginPage(),
+        DashboardPage.routeName: (_) => const DashboardPage(),
+        AddProductPage.routeName: (_) => const AddProductPage(),
+        ViewProductPage.routeName: (_) => const ViewProductPage(),
+        ProductDetailsPage.routeName: (_) => ProductDetailsPage(),
+        CategoryPage.routeName: (_) => const CategoryPage(),
+        OrderPage.routeName: (_) => const OrderPage(),
+        ReportPage.routeName: (_) => const ReportPage(),
+        SettingsPage.routeName: (_) => const SettingsPage(),
+        ProductRepurchasePage.routeName: (_) => const ProductRepurchasePage(),
+        UserListPage.routeName: (_) => const UserListPage(),
       },
     );
   }

@@ -1,33 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-const dateModelFieldTimestamp = 'timestamp';
-const dateModelFieldDay = 'day';
-const dateModelFieldMonth = 'month';
-const dateModelFieldYear = 'year';
+const String dateFieldTimestamp='timestamp';
+const String dateFieldDay='day';
+const String dateFieldMonth='month';
+const String dateFieldYear='year';
 
-class DateModel {
+class DateModel{
   Timestamp timestamp;
-  num day, month, year;
+  num day,month,year;
 
   DateModel({
     required this.timestamp,
-    required this.day,
+    required  this.day,
     required this.month,
     required this.year,
   });
 
-  //: implement map key constants,toMap, fromMap || no collection
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        dateModelFieldTimestamp: timestamp,
-        dateModelFieldDay: day,
-        dateModelFieldMonth: month,
-        dateModelFieldYear: year,
-      };
+  Map<String,dynamic>toMap(){
+    return <String,dynamic>{
+      dateFieldTimestamp:timestamp,
+      dateFieldDay:day,
+      dateFieldMonth:month,
+      dateFieldYear:year,
+    };
+  }
 
-  factory DateModel.fromMap(Map<String, dynamic> map) => DateModel(
-        timestamp: map[dateModelFieldTimestamp],
-        day: map[dateModelFieldDay],
-        month: map[dateModelFieldMonth],
-        year: map[dateModelFieldYear],
-      );
+  factory DateModel.fromMap(Map<String,dynamic>map)=>DateModel(
+      timestamp: map[dateFieldTimestamp],
+      day: map[dateFieldDay],
+      month:map[dateFieldMonth],
+      year: map[dateFieldYear],
+  );
 }
