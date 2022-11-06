@@ -1,5 +1,5 @@
-import 'package:ecom_admin/models/dashboard_model.dart';
 import 'package:flutter/material.dart';
+import '../models/dashboard_model.dart';
 
 class DashboardItemView extends StatelessWidget {
   final DashboardModel model;
@@ -8,18 +8,28 @@ class DashboardItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, model.routeName);
-      },
+      onTap: () => Navigator.pushNamed(context, model.routeName),
       child: Card(
+        /*color: Colors.grey,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16)
+        ),*/
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(model.iconData,
-                  size: 30, color: Theme.of(context).primaryColor),
-              SizedBox(height: 10),
-              Text(model.title, style: Theme.of(context).textTheme.headline6),
+              Icon(
+                model.iconData,
+                size: 50,
+                color: Theme.of(context).primaryColor,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                model.title,
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ],
           ),
         ),

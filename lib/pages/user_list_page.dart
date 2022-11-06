@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class UserListPage extends StatelessWidget {
-  static const String routeName = '/user_list_page';
+  static const String routeName = '/users';
   const UserListPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Users'),
+        title: const Text('Users'),
       ),
     );
   }
