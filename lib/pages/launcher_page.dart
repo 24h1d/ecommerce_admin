@@ -1,10 +1,11 @@
-import 'package:ecom_admin/auth/auth_service.dart';
-import 'package:ecom_admin/pages/dashboard_page.dart';
-import 'package:ecom_admin/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
+import '../auth/authservice.dart';
+import 'dashboard_page.dart';
+import 'login_page.dart';
+
 class LauncherPage extends StatelessWidget {
-  static const String routeName = '/launcher_page';
+  static const String routeName = '/';
   const LauncherPage({Key? key}) : super(key: key);
 
   @override
@@ -16,11 +17,9 @@ class LauncherPage extends StatelessWidget {
         Navigator.pushReplacementNamed(context, LoginPage.routeName);
       }
     });
-    return SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

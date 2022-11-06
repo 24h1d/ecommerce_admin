@@ -1,31 +1,31 @@
-const String collectionOrderConstant = 'orderConstant';
-const String orderConstantFieldDiscount = 'discount';
-const String orderConstantFieldVat = 'vat';
-const String orderConstantFieldDeliveryCharge = 'deliveryCharge';
+const String collectionOrderConstant='OrderConstants';
 
-class OrderConstantModel {
+const String orderConFieldDiscount='discount';
+const String orderConFieldVat='vat';
+const String orderConFieldDeliCharge='deliveryCharge';
+
+class OrderConstantModel{
   num discount;
   num vat;
   num deliveryCharge;
 
   OrderConstantModel({
-    required this.discount,
-    required this.vat,
-    required this.deliveryCharge,
+   this.discount=0,
+   this.vat=0,
+   this.deliveryCharge=0,
   });
 
-//: implement map key constants,toMap, fromMap
+  Map<String,dynamic>toMAp(){
+    return <String,dynamic>{
+      orderConFieldDiscount:discount,
+      orderConFieldVat:vat,
+      orderConFieldDeliCharge:deliveryCharge,
+    };
+  }
 
-  Map<String, dynamic> toMap() => <String, dynamic>{
-        orderConstantFieldDiscount: discount,
-        orderConstantFieldVat: vat,
-        orderConstantFieldDeliveryCharge: deliveryCharge,
-      };
-
-  factory OrderConstantModel.fromMap(Map<String, dynamic> map) =>
-      OrderConstantModel(
-        discount: map[orderConstantFieldDiscount],
-        vat: map[orderConstantFieldVat],
-        deliveryCharge: map[orderConstantFieldDeliveryCharge],
-      );
+  factory OrderConstantModel.fromMap(Map<String,dynamic>map)=>OrderConstantModel(
+    discount: map[orderConFieldDiscount],
+    vat: map[orderConFieldVat],
+    deliveryCharge: map[orderConFieldDeliCharge],
+  );
 }
